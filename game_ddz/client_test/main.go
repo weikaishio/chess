@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"time"
 
 	"github.com/golang/protobuf/proto"
 
@@ -18,6 +19,7 @@ import (
 )
 
 const accountLoginUrl = "http://127.0.0.1:9090/login"
+const gateUrl = "http://127.0.0.1:8886/"
 
 func loginAccount() (loginResp login.LoginResp, success bool) {
 	var req login.LoginReq
@@ -85,7 +87,53 @@ func loginGame(brw *bufio.ReadWriter, userid uint32, token string) {
 	proto.Unmarshal(gc.MsgBody, &resp)
 	log.Info("receive login game resp:%s", resp.String())
 }
+func httploginGame(userid uint32, token string) bool {
+	var req ddz_pb_client.LoginReq
+	var resp ddz_pb_client.LoginResp
 
+	req.Token = token
+
+	var cg codec.ClientGame
+	cg.Userid = userid
+	cg.Msgid = ddz_handler.MsgidLoginReq
+	cg.MsgBody, _ = proto.Marshal(&req)
+
+	//if err := cg.Encode(brw); err != nil {
+	//	log.Error("login game fail:%s", err.Error())
+	//	return
+	//}
+	//
+	//if err := brw.Flush(); err != nil {
+	//	log.Error("login game fail:%s", err.Error())
+	//	return
+	//}
+	body, err := cg.Encode2Byte()
+	if err != nil {
+		log.Error("test fail:%v", err)
+		return false
+	}
+	respBody, err := http.Post(gateUrl, "", bytes.NewReader(body))
+	if err != nil {
+		log.Error("http.post er:%v", err)
+		return false
+	}
+	//resBytes, err := ioutil.ReadAll(respBody.Body)
+	//log.Info("respBody.Status:%d,body:%s,err:%v", respBody.StatusCode, string(resBytes), err)
+	var gc codec.GameClient
+	if err := gc.DecodeFromReader(respBody.Body); err != nil {
+		log.Error("receive test resp fail:%s", err.Error())
+		return false
+	}
+
+	if gc.Result != common.ResultSuccess {
+		log.Error("login game result = %d", gc.Result)
+		return false
+	}
+
+	proto.Unmarshal(gc.MsgBody, &resp)
+	log.Info("receive login game resp:%s", resp.String())
+	return true
+}
 func echo(brw *bufio.ReadWriter, userid uint32) bool {
 	var cg codec.ClientGame
 	cg.Userid = userid
@@ -112,6 +160,56 @@ func echo(brw *bufio.ReadWriter, userid uint32) bool {
 	return true
 }
 
+func httpTest(userid uint32) bool {
+	var cg codec.ClientGame
+	cg.Userid = userid
+	cg.MsgBody = []byte("xxxxx test")
+	cg.Msgid = ddz_handler.MsgidTestReq
+	body, err := cg.Encode2Byte()
+	if err != nil {
+		log.Error("test fail:%v", err)
+		return false
+	}
+	respBody, err := http.Post(gateUrl, "", bytes.NewReader(body))
+	if err != nil {
+		log.Error("http.post er:%v", err)
+		return false
+	}
+
+	//resBytes, err := ioutil.ReadAll(respBody.Body)
+	//log.Info("httpTest respBody.Status:%d,body:%s,err:%v", respBody.StatusCode, string(resBytes), err)
+	var gc codec.GameClient
+	if err := gc.DecodeFromReader(respBody.Body); err != nil {
+		log.Error("receive test resp fail:%s", err.Error())
+		return false
+	}
+	log.Info("receive test resp: %s", gc.MsgBody)
+	return true
+}
+func test(brw *bufio.ReadWriter, userid uint32) bool {
+	var cg codec.ClientGame
+	cg.Userid = userid
+	cg.MsgBody = []byte("xxxxx test")
+	cg.Msgid = ddz_handler.MsgidTestReq
+	if err := cg.Encode(brw); err != nil {
+		log.Error("test fail:%s", err.Error())
+		return false
+	}
+
+	if err := brw.Flush(); err != nil {
+		log.Error("test game fail:%s", err.Error())
+		return false
+	}
+
+	var gc codec.GameClient
+	if err := gc.DecodeFromReader(brw); err != nil {
+		log.Error("receive test resp fail:%s", err.Error())
+		return false
+	}
+
+	log.Info("receive test resp: %s", gc.MsgBody)
+	return true
+}
 func sendMessage(conn net.Conn, userid uint32, receiver uint32) {
 	var req ddz_pb_client.SendMessageReq
 	var resp ddz_pb_client.SendMessageResp
@@ -174,15 +272,20 @@ func main() {
 		return
 	}
 
-	conn, err := net.Dial("tcp", loginResp.GameAddr)
-	if err != nil {
-		log.Error("%s", err.Error())
-		return
+	//conn, err := net.Dial("tcp", loginResp.GameAddr)
+	//if err != nil {
+	//	log.Error("%s", err.Error())
+	//	return
+	//}
+	//defer conn.Close()
+	//
+	//brw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
+
+	httploginGame(loginResp.Userid, loginResp.Token)
+	res := true
+	for res {
+		//res = test(brw, loginResp.Userid)
+		res = httpTest(loginResp.Userid)
+		time.Sleep(1 * time.Second)
 	}
-	defer conn.Close()
-
-	brw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
-
-	loginGame(brw, loginResp.Userid, loginResp.Token)
-	echo(brw, loginResp.Userid)
 }

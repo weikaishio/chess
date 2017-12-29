@@ -22,6 +22,7 @@ func pushRequest(gb codec.GateBackend) {
 	requestQ <- gb
 }
 
+//todo:瓶颈，有个monitorWorker 增加goroutinue
 func workLoop() {
 	for {
 		gb := <-requestQ

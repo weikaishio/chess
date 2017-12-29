@@ -16,6 +16,7 @@ import (
 )
 
 type respInfo struct {
+	connid  uint32
 	userid  uint32
 	userids []uint32
 	gc      codec.GameClient
@@ -56,13 +57,13 @@ func Run(port int) error {
 	}
 }
 
-func SendResp(userid uint32, msgid uint16, result uint16, msgBody []byte) {
+func SendResp(userid, connid uint32, msgid uint16, result uint16, msgBody []byte) {
 	var gc codec.GameClient
 	gc.Msgid = msgid
 	gc.Result = result
 	gc.MsgBody = msgBody
 
-	respQ <- respInfo{userid: userid, gc: gc}
+	respQ <- respInfo{userid: userid, connid: connid, gc: gc}
 }
 
 func LoginFail(connid uint32, userid uint32, msgid uint16, result uint16) {
@@ -192,8 +193,13 @@ func (info respInfo) encode(buffer *bytes.Buffer) codec.BackendGate {
 		if present {
 			if sess.Gateid != common.GetGateid() {
 				sendToGateQ(sess.Gateid, sess.Connid, bg.MsgBuf)
+				log.Info("sess.Gateid:%d != common.GetGateid():%d", sess.Gateid, common.GetGateid())
 			} else {
 				bg.Connid = sess.Connid
+				log.Info("bg.Connid:%d", bg.Connid)
+			}
+			if info.connid > 0 {
+				bg.Connid = info.connid
 			}
 		} else {
 			log.Warn("user %d has no session", info.userid)

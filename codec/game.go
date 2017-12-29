@@ -87,7 +87,46 @@ func (cg *ClientGame) Decode(buf []byte) error {
 	decodeClientGame(buf[4:msgLen+4], cg)
 	return nil
 }
+func (cg *ClientGame) Encode2Byte() ([]byte, error) {
+	buf := buf_pool.Get()
+	defer buf_pool.Put(buf)
+	enc := encoder{w: buf, checksum: adler32.New()}
 
+	if err := enc.putUint32(14 + uint32(len(cg.MsgBody))); err != nil {
+		return nil, err
+	}
+
+	if err := enc.putUint32(cg.Userid); err != nil {
+		return nil, err
+	}
+
+	if err := enc.putUint16(cg.Msgid); err != nil {
+		return nil, err
+	}
+
+	if err := enc.putUint32(0); err != nil {
+		return nil, err
+	}
+
+	if err := enc.putBytes(cg.MsgBody); err != nil {
+		return nil, err
+	}
+
+	if err := enc.finish(); err != nil {
+		return nil, err
+	}
+
+	data := buf.Bytes()
+	for len(data)%aesBlock.BlockSize() != 0 {
+		data = append(data, 0)
+	}
+
+	encrypter := cipher.NewCBCEncrypter(aesBlock, iv)
+	encrypter.CryptBlocks(data, data)
+
+	return data, nil
+
+}
 func (cg *ClientGame) Encode(w io.Writer) error {
 	buf := buf_pool.Get()
 	defer buf_pool.Put(buf)

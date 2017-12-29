@@ -17,6 +17,9 @@ const (
 	MsgidSendMessageReq  = 104
 	MsgidSendMessageResp = 105
 
+	MsgidTestReq  = 201
+	MsgidTestResp = 202
+
 	MsgidMessageNotify = 800
 )
 
@@ -34,6 +37,7 @@ func init() {
 	server.RegisterHandler(MsgidLoginReq, HandleLogin)
 	server.RegisterHandler(MsgidEchoReq, HandleEcho)
 	server.RegisterHandler(MsgidSendMessageReq, HandleSendMessage)
+	server.RegisterHandler(MsgidTestReq, HandleTest)
 	server.SetLoginReqMsgid(MsgidLoginReq)
 
 	msgidName[MsgidLoginReq] = "LoginReq"
@@ -71,15 +75,15 @@ func ResultName(result uint16) string {
 	return "unknown"
 }
 
-func exitFunc(userid uint32, msgid uint16, result uint16, resp proto.Message) {
+func exitFunc(userid, connid uint32, msgid uint16, result uint16, resp proto.Message) {
 
 	if result != common.ResultSuccess || resp == nil {
 
-		server.SendResp(userid, msgid, result, nil)
+		server.SendResp(userid, 0, msgid, result, nil)
 		return
 	}
 
 	buf, _ := proto.Marshal(resp)
-	server.SendResp(userid, msgid, result, buf)
+	server.SendResp(userid, connid, msgid, result, buf)
 
 }

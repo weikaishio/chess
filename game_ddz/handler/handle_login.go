@@ -34,7 +34,7 @@ func HandleLogin(userid uint32, connid uint32, msgBody []byte) {
 			return
 		}
 
-		exitFunc(userid, MsgidLoginResp, result, &resp)
+		exitFunc(userid,connid, MsgidLoginResp, result, &resp)
 	}()
 
 	key := common.GenLoginInfoKey(userid)

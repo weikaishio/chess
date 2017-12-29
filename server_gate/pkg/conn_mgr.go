@@ -3,6 +3,8 @@ package pkg
 import (
 	"io"
 	"sync"
+
+	"github.com/gochenzl/chess/util/log"
 )
 
 var connMgr struct {
@@ -45,6 +47,7 @@ func putConn(connid uint32, w io.Writer) {
 	connMgr.mu.Lock()
 	connMgr.conns[connid] = w
 	connMgr.mu.Unlock()
+	log.Info("connMgr.conns:%v", connMgr.conns)
 }
 
 func delConn(connid uint32) {

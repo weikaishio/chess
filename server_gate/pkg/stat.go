@@ -15,7 +15,7 @@ func incRecvMsgCounter() {
 
 func printStat() {
 	for {
-		time.Sleep(time.Second * 5)
+		time.Sleep(time.Second * 25)
 
 		counter := atomic.LoadInt64(&recvMsgCounter)
 		log.Info("recv msg %d", counter)

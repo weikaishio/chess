@@ -9,6 +9,7 @@ import (
 
 	"github.com/gochenzl/chess/codec"
 	"github.com/gochenzl/chess/common"
+	"github.com/gochenzl/chess/server_gate/connid"
 	"github.com/gochenzl/chess/util/log"
 )
 
@@ -61,24 +62,36 @@ BEGIN:
 			goto BEGIN
 		}
 
+		log.Info("bg:%v", bg)
 		proccessBg(bg)
 	}
 }
 
 func proccessBg(bg codec.BackendGate) {
+	log.Info("proccessBg:%d", bg.Connid)
 	if len(bg.Connids) > 0 {
 		for i := 0; i < len(bg.Connids); i++ {
 			writer := getConn(bg.Connids[i])
 			if writer == nil {
 				continue
 			}
-
+			log.Info("proccessBg MsgBuf1:%s\n", string(bg.MsgBuf))
 			writer.Write(bg.MsgBuf)
 		}
 	} else {
 		writer := getConn(bg.Connid)
 		if writer != nil {
+			log.Info("proccessBg bg.Connid:%d\n", bg.Connid)
 			writer.Write(bg.MsgBuf)
+			switch w := writer.(type) {
+			case httpWriterWithBlock:
+				log.Info("httpWriterWithBlock bg.Connid:%d", bg.Connid)
+				w.finishSig <- struct{}{}
+				connid.Release(bg.Connid)
+				delConn(bg.Connid)
+			}
+		} else {
+			log.Info("write is nil, Connid:%v", bg.Connid)
 		}
 	}
 }
@@ -97,6 +110,7 @@ func (bw *backendWriter) flush() error {
 		return nil
 	}
 
+	//log.Info("backendWriter flush:%s\n", string(bw.buf.Bytes()))
 	if _, err := bw.conn.Write(bw.buf.Bytes()); err != nil {
 		return err
 	}

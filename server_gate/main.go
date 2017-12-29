@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"net/http"
+
 	"github.com/gochenzl/chess/common"
 	"github.com/gochenzl/chess/server_gate/config"
 	"github.com/gochenzl/chess/server_gate/connid"
@@ -68,6 +70,12 @@ func main() {
 	pkg.Init()
 
 	go refreshBackend()
+
+	go func() {
+		http.HandleFunc("/", pkg.DoHttpFrontEnd)
+		err := http.ListenAndServe(":8886", nil)
+		log.Error("http.ListenAndServe er:%v", err)
+	}()
 
 	if err := pkg.Serve(listenPort); err != nil {
 		log.Error("%s", err.Error())
