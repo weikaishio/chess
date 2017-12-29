@@ -8,7 +8,7 @@ import (
 	"hash/adler32"
 	"io"
 
-	"github.com/gochenzl/chess/util/buf_pool"
+	"github.com/weikaishio/chess/util/buf_pool"
 )
 
 var ErrInvalid = errors.New("invalid")

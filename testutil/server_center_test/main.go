@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gochenzl/chess/pb/center"
-	"github.com/gochenzl/chess/util/log"
-	"github.com/gochenzl/chess/util/rpc"
+	"github.com/weikaishio/chess/pb/center"
+	"github.com/weikaishio/chess/util/log"
+	"github.com/weikaishio/chess/util/rpc"
 	"github.com/golang/protobuf/proto"
 )
 

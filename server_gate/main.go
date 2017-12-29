@@ -9,13 +9,13 @@ import (
 
 	"net/http"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/server_gate/config"
-	"github.com/gochenzl/chess/server_gate/connid"
-	"github.com/gochenzl/chess/server_gate/pkg"
-	"github.com/gochenzl/chess/util/log"
-	"github.com/gochenzl/chess/util/rpc"
-	"github.com/gochenzl/chess/util/services"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/server_gate/config"
+	"github.com/weikaishio/chess/server_gate/connid"
+	"github.com/weikaishio/chess/server_gate/pkg"
+	"github.com/weikaishio/chess/util/log"
+	"github.com/weikaishio/chess/util/rpc"
+	"github.com/weikaishio/chess/util/services"
 )
 
 func refreshBackend() {

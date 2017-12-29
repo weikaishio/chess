@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/gochenzl/chess/codec"
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/game/config"
-	"github.com/gochenzl/chess/game/server"
-	"github.com/gochenzl/chess/game/session"
-	_ "github.com/gochenzl/chess/game_ddz/handler"
-	"github.com/gochenzl/chess/game_ddz/user"
-	"github.com/gochenzl/chess/util/log"
-	"github.com/gochenzl/chess/util/redis_cli"
-	"github.com/gochenzl/chess/util/rpc"
-	"github.com/gochenzl/chess/util/services"
+	"github.com/weikaishio/chess/codec"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/game/config"
+	"github.com/weikaishio/chess/game/server"
+	"github.com/weikaishio/chess/game/session"
+	_ "github.com/weikaishio/chess/game_ddz/handler"
+	"github.com/weikaishio/chess/game_ddz/user"
+	"github.com/weikaishio/chess/util/log"
+	"github.com/weikaishio/chess/util/redis_cli"
+	"github.com/weikaishio/chess/util/rpc"
+	"github.com/weikaishio/chess/util/services"
 
 	"fmt"
 	"os"

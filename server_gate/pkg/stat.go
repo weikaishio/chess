@@ -4,7 +4,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/util/log"
 )
 
 var recvMsgCounter int64

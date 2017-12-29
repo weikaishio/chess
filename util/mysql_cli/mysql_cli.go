@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	_ "go-sql-driver/mysql"
 
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/util/log"
 )
 
 var db *sql.DB

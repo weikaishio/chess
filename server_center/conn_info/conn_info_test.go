@@ -3,7 +3,7 @@ package conn_info
 import (
 	"testing"
 
-	"github.com/gochenzl/chess/pb/center"
+	"github.com/weikaishio/chess/pb/center"
 )
 
 func TestAddConnInfo(t *testing.T) {

@@ -3,9 +3,9 @@ package config
 import (
 	"sync"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/util/conf"
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/util/conf"
+	"github.com/weikaishio/chess/util/log"
 )
 
 var gateConfig struct {

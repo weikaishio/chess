@@ -3,7 +3,7 @@ package conn_info
 import (
 	"sync"
 
-	"github.com/gochenzl/chess/pb/center"
+	"github.com/weikaishio/chess/pb/center"
 )
 
 type connInfo struct {

@@ -3,8 +3,8 @@ package handler
 import (
 	"io"
 
-	"github.com/gochenzl/chess/pb/center"
-	"github.com/gochenzl/chess/server_center/conn_info"
+	"github.com/weikaishio/chess/pb/center"
+	"github.com/weikaishio/chess/server_center/conn_info"
 	"github.com/golang/protobuf/proto"
 )
 

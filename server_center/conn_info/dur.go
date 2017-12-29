@@ -3,7 +3,7 @@ package conn_info
 import (
 	"encoding/binary"
 
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/util/log"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/storage"

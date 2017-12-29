@@ -3,8 +3,8 @@ package handler
 import (
 	"fmt"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/game/server"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/game/server"
 )
 
 func HandleEcho(userid uint32, connid uint32, msgBody []byte) {

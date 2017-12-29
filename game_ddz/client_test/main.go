@@ -10,12 +10,12 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"github.com/gochenzl/chess/codec"
-	"github.com/gochenzl/chess/common"
-	ddz_handler "github.com/gochenzl/chess/game_ddz/handler"
-	ddz_pb_client "github.com/gochenzl/chess/game_ddz/pb_client"
-	"github.com/gochenzl/chess/pb/login"
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/codec"
+	"github.com/weikaishio/chess/common"
+	ddz_handler "github.com/weikaishio/chess/game_ddz/handler"
+	ddz_pb_client "github.com/weikaishio/chess/game_ddz/pb_client"
+	"github.com/weikaishio/chess/pb/login"
+	"github.com/weikaishio/chess/util/log"
 )
 
 const accountLoginUrl = "http://127.0.0.1:9090/login"
@@ -87,7 +87,7 @@ func loginGame(brw *bufio.ReadWriter, userid uint32, token string) {
 	proto.Unmarshal(gc.MsgBody, &resp)
 	log.Info("receive login game resp:%s", resp.String())
 }
-func httploginGame(userid uint32, token string) bool {
+func httploginGame(userid uint32, username, token string) bool {
 	var req ddz_pb_client.LoginReq
 	var resp ddz_pb_client.LoginResp
 
@@ -112,7 +112,8 @@ func httploginGame(userid uint32, token string) bool {
 		log.Error("test fail:%v", err)
 		return false
 	}
-	respBody, err := http.Post(gateUrl, "", bytes.NewReader(body))
+	//respBody, err := http.Post(gateUrl, "", bytes.NewReader(body))
+	respBody, err := doHttp(body, username, token)
 	if err != nil {
 		log.Error("http.post er:%v", err)
 		return false
@@ -133,6 +134,15 @@ func httploginGame(userid uint32, token string) bool {
 	proto.Unmarshal(gc.MsgBody, &resp)
 	log.Info("receive login game resp:%s", resp.String())
 	return true
+}
+func doHttp(body []byte, username, password string) (resp *http.Response, err error) {
+	req, err := http.NewRequest("POST", gateUrl, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	req.SetBasicAuth(username, password)
+	client := &http.Client{}
+	return client.Do(req)
 }
 func echo(brw *bufio.ReadWriter, userid uint32) bool {
 	var cg codec.ClientGame
@@ -160,7 +170,7 @@ func echo(brw *bufio.ReadWriter, userid uint32) bool {
 	return true
 }
 
-func httpTest(userid uint32) bool {
+func httpTest(userid uint32, username, token string) bool {
 	var cg codec.ClientGame
 	cg.Userid = userid
 	cg.MsgBody = []byte("xxxxx test")
@@ -170,7 +180,8 @@ func httpTest(userid uint32) bool {
 		log.Error("test fail:%v", err)
 		return false
 	}
-	respBody, err := http.Post(gateUrl, "", bytes.NewReader(body))
+	respBody, err := doHttp(body, username, token)
+	//respBody, err := http.Post(gateUrl, "", bytes.NewReader(body))
 	if err != nil {
 		log.Error("http.post er:%v", err)
 		return false
@@ -281,11 +292,11 @@ func main() {
 	//
 	//brw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
 
-	httploginGame(loginResp.Userid, loginResp.Token)
+	//httploginGame(loginResp.Userid, loginResp.Username, loginResp.Token)
 	res := true
 	for res {
 		//res = test(brw, loginResp.Userid)
-		res = httpTest(loginResp.Userid)
+		res = httpTest(loginResp.Userid, loginResp.Username, loginResp.Token)
 		time.Sleep(1 * time.Second)
 	}
 }

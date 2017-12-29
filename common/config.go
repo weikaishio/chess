@@ -1,6 +1,6 @@
 package common
 
-import "github.com/gochenzl/chess/util/conf"
+import "github.com/weikaishio/chess/util/conf"
 
 var config struct {
 	Gateid     uint32 `ini:"gateid"`

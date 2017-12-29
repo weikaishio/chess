@@ -4,9 +4,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/pb/table"
-	"github.com/gochenzl/chess/util/redis_cli"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/pb/table"
+	"github.com/weikaishio/chess/util/redis_cli"
 	"github.com/golang/protobuf/proto"
 )
 

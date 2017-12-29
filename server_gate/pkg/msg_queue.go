@@ -4,10 +4,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gochenzl/chess/codec"
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/server_gate/config"
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/codec"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/server_gate/config"
+	"github.com/weikaishio/chess/util/log"
 	"gopkg.in/redis.v3"
 )
 

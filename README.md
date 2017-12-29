@@ -1,41 +1,41 @@
-#¼òÊö
-![Alt text](https://github.com/gochenzl/chess/blob/master/doc/pic/architecture.png?raw=true)
-·ÖÎª½ÓÈë²ã¡¢Âß¼­²ã¡¢Êý¾Ý²ã£¬redisºÍserver_centerÎªÐ­µ÷²ã¡£ 
+#ï¿½ï¿½ï¿½ï¿½
+![Alt text](https://github.com/weikaishio/chess/blob/master/doc/pic/architecture.png?raw=true)
+ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ã¡¢ï¿½ß¼ï¿½ï¿½ã¡¢ï¿½ï¿½ï¿½Ý²ã£¬redisï¿½ï¿½server_centerÎªÐ­ï¿½ï¿½ï¿½ã¡£ 
 
-Ò»¸öserver_gate¿ÉÒÔ´øÒ»¸ö»òÕß¶à¸öserver_game£¬Ã¿¸öserver_gate¶¼ÓÐÒ»¸öÎ¨Ò»µÄgateid¡£µ±server_gateÁ¬½ÓÉÏserver_gameÊ±£¬»á°Ñgateid·¢ËÍ¸øserver_game¡£  
+Ò»ï¿½ï¿½server_gateï¿½ï¿½ï¿½Ô´ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½server_gameï¿½ï¿½Ã¿ï¿½ï¿½server_gateï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Î¨Ò»ï¿½ï¿½gateidï¿½ï¿½ï¿½ï¿½server_gateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½server_gameÊ±ï¿½ï¿½ï¿½ï¿½ï¿½gateidï¿½ï¿½ï¿½Í¸ï¿½server_gameï¿½ï¿½  
 
-Ã¿¸ö¿Í»§¶ËµÄÍøÂçÁ¬½ÓÓÉgateidºÍconnid(Á¬½Óid)±êÊ¶£¬¿Í»§¶ËµÇÂ¼³É¹¦ºó£¬ÓÉserver_game±£´æµ½server_center£¬²¢ÓÐserver_center·Ö·¢¸øËùÓÐµÄserver_game¡£ÕâÑù£¬Ã¿¸öserver_game¶¼ÓÐËùÓÐ¿Í»§¶ËµÄÁ¬½ÓÐÅÏ¢µÄÒ»¸ö»º´æ£¬²¢¸ù¾ÝÁ¬½ÓÐÅÏ¢À´×ª·¢ÏûÏ¢¡£Èç¹û¿Í»§¶ËÁ¬½ÓµÄgateidºÍserver_gameµÄÏàÍ¬£¬ÔòÖ±½Ó×ª·¢¸øserver_gate£»Èç¹û²»Ò»Ñù£¬Ôò²åÈëµ½ÏàÓ¦µÄredisµÄÏûÏ¢¶ÓÁÐÖÐ£¬ÏàÓ¦µÄserver_gate»áÈ¡³ö²¢×ª·¢¡£  
+Ã¿ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gateidï¿½ï¿½connid(ï¿½ï¿½ï¿½ï¿½id)ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ëµï¿½Â¼ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½server_gameï¿½ï¿½ï¿½æµ½server_centerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½server_centerï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½server_gameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½server_gameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿Í»ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½gateidï¿½ï¿½server_gameï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½server_gateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½Ó¦ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½server_gateï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½  
 
-Êý¾Ý²ã°üÀ¨server_tableºÍuser_db¡£  
-user_db±£´æÍæ¼ÒÐÅÏ¢£¬¿ÉÒÔÎªÈÎºÎÖ§³ÖredisÐ­ÒéµÄÊý¾Ý¿â¡£  
-server_table´¦ÀíÆåÅÆ×À×ÓÂß¼­£¬°üÀ¨Åä×À¡¢²éÑ¯ºÍ±£´æ×À×ÓÐÅÏ¢¡¢²éÑ¯Íæ¼ÒµÄ·¿¼äÎ»ÖÃ¡£Åä×À³É¹¦Ê±£¬Íùredis²åÈëÏûÏ¢£¬server_game»ñÈ¡²¢´¦Àí¡£ÅÆ×ÀÓÐ³¬Ê±ÏûÏ¢Ê±£¬Íùredis²åÈëÏûÏ¢£¬server_game»ñÈ¡²¢´¦Àí¡£  
+ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½server_tableï¿½ï¿½user_dbï¿½ï¿½  
+user_dbï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Îºï¿½Ö§ï¿½ï¿½redisÐ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿â¡£  
+server_tableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½Í±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ÒµÄ·ï¿½ï¿½ï¿½Î»ï¿½Ã¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½Ê±ï¿½ï¿½ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½server_gameï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½Ê±ï¿½ï¿½Ï¢Ê±ï¿½ï¿½ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½server_gameï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 
-server_login(Í¼ÖÐÃ»ÓÐ»­³ö)´¦ÀíÕËºÅµÇÂ¼£¬ÈçÎ¢ÐÅµÇÂ¼µÈ¡£ÕËºÅµÇÂ¼³É¹¦£¬Ïòredis²åÈëÍæ¼ÒµÇÂ¼³É¹¦µÄ¼ÇÂ¼£¬²¢¸ø¿Í»§¶Ë·µ»ØÓÎÏ·µÇÂ¼µØÖ·ºÍµÇÂ¼token¡£  
-server_loginºÍserver_gameÖ®¼äÍ¨¹ýredisÍ¨ÐÅ£¬ÈçÑéÖ¤token¡¢»ñÈ¡Íæ¼ÒÐÅÏ¢¡£¿ÉÒÔ¸ù¾Ý¿Í»§¶Ë°æ±¾Ñ¡ÔñÓÎÏ·µÇÂ¼µØÖ·£¬·½±ã¸üÐÂ¡£
+server_login(Í¼ï¿½ï¿½Ã»ï¿½Ð»ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ËºÅµï¿½Â¼ï¿½ï¿½ï¿½ï¿½Î¢ï¿½Åµï¿½Â¼ï¿½È¡ï¿½ï¿½ËºÅµï¿½Â¼ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½Â¼ï¿½É¹ï¿½ï¿½Ä¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Â¼ï¿½ï¿½Ö·ï¿½Íµï¿½Â¼tokenï¿½ï¿½  
+server_loginï¿½ï¿½server_gameÖ®ï¿½ï¿½Í¨ï¿½ï¿½redisÍ¨ï¿½Å£ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤tokenï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½Ý¿Í»ï¿½ï¿½Ë°æ±¾Ñ¡ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Â¼ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¡ï¿½
 
 ##server_gate
-* ¿Í»§¶ËÍøÂçÁ¬½Ó¹ÜÀí
-* ×ª·¢¿Í»§¶ËÏûÏ¢¸øÂß¼­²ã
-* ×ª·¢Âß¼­²ãÏûÏ¢¸ø¿Í»§¶Ë
-* ·¢ËÍ¹ã²¥ÏûÏ¢
+* ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
+* ×ªï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
+* ×ªï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½
+* ï¿½ï¿½ï¿½Í¹ã²¥ï¿½ï¿½Ï¢
 
 ##server_game
-* ´¦ÀíÒµÎñÂß¼­
-* Î¬»¤¿Í»§¶ËÁ¬½ÓÐÅÏ¢(Âß¼­²ãÖÐ³ÆÎªsession)
-* ×ª·¢ÏìÓ¦ÏûÏ¢µ½½ÓÈë²ã
+* ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ß¼ï¿½
+* Î¬ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢(ï¿½ß¼ï¿½ï¿½ï¿½ï¿½Ð³ï¿½Îªsession)
+* ×ªï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 ##server_table
-* ½øÈë·¿¼ä¡¢Àë¿ª·¿¼ä¡¢Åä×À
-* ²éÑ¯ºÍ¸üÐÂ×À×ÓÐÅÏ¢
-* ²éÑ¯Íæ¼ÒµÄ·¿¼äÎ»ÖÃ
+* ï¿½ï¿½ï¿½ë·¿ï¿½ä¡¢ï¿½ë¿ªï¿½ï¿½ï¿½ä¡¢ï¿½ï¿½ï¿½ï¿½
+* ï¿½ï¿½Ñ¯ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+* ï¿½ï¿½Ñ¯ï¿½ï¿½ÒµÄ·ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 
 ##server_center
-* ¿Í»§¶ËÁ¬½ÓÐÅÏ¢¹ÜÀí
-* µ±Ôö¼Ó¡¢É¾³ýÁ¬½ÓÐÅÏ¢Ê±£¬·Ö·¢¸øÂß¼­²ã
-* Á¬½ÓÐÅÏ¢³Ö¾Ã»¯£¬±ÜÃâÖØÆô¶ªÊ§
+* ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
+* ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢Ê±ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
+* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ö¾Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§
 
-#À©Õ¹ÐÔ
-* ½ÓÈë²ãºÍÂß¼­²ã¿ÉÒÔÈÎÒâÀ©Õ¹
-* server_centerÖ»¹ÜÀíÁ¬½ÓÐÅÏ¢£¬¾­¹ý²âÊÔÔöÉ¾´ïµ½Ã¿Ãë3Íò´Î×óÓÒ£¬²»»á³ÉÎªÆ¿¾±
-* server_tableÖ÷Òª¹¦ÄÜÔÚÓÚ×À×ÓÐÅÏ¢µÄ²éÑ¯ºÍ¸üÐÂ(·Ö±ð²âÊÔ£¬Ã¿Ãë¿É´ï8w´Î×óÓÒ)£¬Èç¹û´ïµ½Æ¿¾±£¬¿ÉÒÔÃ¿¸ö·¿¼ä¿ªÒ»¸ö(ÕâÖÖÇé¿öÏÂ£¬²éÑ¯Íæ¼ÒÔÚÄÄ¸ö·¿¼äÒª²éÑ¯ËùÓÐµÄserver_table)
-* user_dbÍÆ¼öÊ¹ÓÃ¾ßÓÐ³Ö¾Ã»¯¹¦ÄÜµÄssdb£¬Êý¾Ý´ïµ½Ò»¶¨¹æÄ£Ê±£¬ÈÔÈ»¾ßÓÐ½Ï¸ßµÄÐÔÄÜ£¬À©Õ¹¿ÉÒÔ¸ù¾Ýuserid×ö¹þÏ£¡£ÁíÍâÒ²¿ÉÒÔÊ¹ÓÃLedisDB¡£
+#ï¿½ï¿½Õ¹ï¿½ï¿½
+* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¹
+* server_centerÖ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ïµ½Ã¿ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÆ¿ï¿½ï¿½
+* server_tableï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ä²ï¿½Ñ¯ï¿½Í¸ï¿½ï¿½ï¿½(ï¿½Ö±ï¿½ï¿½ï¿½Ô£ï¿½Ã¿ï¿½ï¿½É´ï¿½8wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ïµ½Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ä¿ªÒ»ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ðµï¿½server_table)
+* user_dbï¿½Æ¼ï¿½Ê¹ï¿½Ã¾ï¿½ï¿½Ð³Ö¾Ã»ï¿½ï¿½ï¿½ï¿½Üµï¿½ssdbï¿½ï¿½ï¿½ï¿½ï¿½Ý´ïµ½Ò»ï¿½ï¿½ï¿½ï¿½Ä£Ê±ï¿½ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½Ð½Ï¸ßµï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½useridï¿½ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½LedisDBï¿½ï¿½

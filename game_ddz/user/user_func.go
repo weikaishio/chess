@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/gochenzl/chess/game_ddz/pb_user"
+	"github.com/weikaishio/chess/game_ddz/pb_user"
 	"github.com/golang/protobuf/proto"
 )
 

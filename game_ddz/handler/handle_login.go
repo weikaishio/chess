@@ -3,14 +3,14 @@ package handler
 import (
 	"encoding/json"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/game/server"
-	"github.com/gochenzl/chess/game/session"
-	"github.com/gochenzl/chess/game_ddz/pb_client"
-	"github.com/gochenzl/chess/game_ddz/user"
-	"github.com/gochenzl/chess/util/log"
-	"github.com/gochenzl/chess/util/redis_cli"
-	"github.com/gochenzl/chess/util/services"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/game/server"
+	"github.com/weikaishio/chess/game/session"
+	"github.com/weikaishio/chess/game_ddz/pb_client"
+	"github.com/weikaishio/chess/game_ddz/user"
+	"github.com/weikaishio/chess/util/log"
+	"github.com/weikaishio/chess/util/redis_cli"
+	"github.com/weikaishio/chess/util/services"
 	"github.com/golang/protobuf/proto"
 )
 

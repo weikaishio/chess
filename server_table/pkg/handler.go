@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"net"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/pb/table"
-	"github.com/gochenzl/chess/util/log"
-	"github.com/gochenzl/chess/util/rpc"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/pb/table"
+	"github.com/weikaishio/chess/util/log"
+	"github.com/weikaishio/chess/util/rpc"
 	"github.com/golang/protobuf/proto"
 )
 

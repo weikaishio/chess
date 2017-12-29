@@ -4,7 +4,7 @@ import (
 	"io"
 	"sync"
 
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/util/log"
 )
 
 var connMgr struct {
