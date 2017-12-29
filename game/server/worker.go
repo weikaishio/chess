@@ -44,7 +44,7 @@ func workLoop() {
 				log.Info("user %d has not yet logined", cg.Userid)
 				continue
 			}
-
+			//todo:verify token
 			f(cg.Userid, gb.Connid, cg.MsgBody)
 		} else if gb.Msgid == common.MsgGateid {
 			if len(gb.MsgBuf) == 4 {
