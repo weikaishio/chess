@@ -1,9 +1,9 @@
 package handler
 
 import (
+	"github.com/golang/protobuf/proto"
 	"github.com/weikaishio/chess/common"
 	"github.com/weikaishio/chess/game/server"
-	"github.com/golang/protobuf/proto"
 )
 
 // msgid
@@ -39,6 +39,7 @@ func init() {
 	server.RegisterHandler(MsgidSendMessageReq, HandleSendMessage)
 	server.RegisterHandler(MsgidTestReq, HandleTest)
 	server.SetLoginReqMsgid(MsgidLoginReq)
+	server.SetVeirfyHandler(HandleVerifyToken)
 
 	msgidName[MsgidLoginReq] = "LoginReq"
 	msgidName[MsgidLoginResp] = "LoginResp"

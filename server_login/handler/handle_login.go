@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/golang/protobuf/proto"
+	"github.com/satori/uuid"
 	"github.com/weikaishio/chess/codec"
 	"github.com/weikaishio/chess/common"
 	"github.com/weikaishio/chess/pb/login"
@@ -15,8 +17,6 @@ import (
 	"github.com/weikaishio/chess/server_login/config"
 	"github.com/weikaishio/chess/util/log"
 	"github.com/weikaishio/chess/util/redis_cli"
-	"github.com/golang/protobuf/proto"
-	"github.com/satori/uuid"
 )
 
 func HandleLogin(w http.ResponseWriter, req *http.Request) {
@@ -71,7 +71,7 @@ func genToken(username string) string {
 
 	var buf [md5.Size]byte
 	buf = md5.Sum(data)
-	return hex.EncodeToString(buf[:])
+	return hex.EncodeToString(buf[:])[:12] //存12位，与gate那边编解码长度统一
 }
 
 func setLoginInfo(loginResp *login.LoginResp) {

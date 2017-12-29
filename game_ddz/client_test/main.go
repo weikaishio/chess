@@ -186,7 +186,10 @@ func httpTest(userid uint32, username, token string) bool {
 		log.Error("http.post er:%v", err)
 		return false
 	}
-
+	if respBody.StatusCode != http.StatusOK {
+		log.Warn("respBody.StatusCode:%d!=http.StatusOK", respBody.StatusCode)
+		return false
+	}
 	//resBytes, err := ioutil.ReadAll(respBody.Body)
 	//log.Info("httpTest respBody.Status:%d,body:%s,err:%v", respBody.StatusCode, string(resBytes), err)
 	var gc codec.GameClient

@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 
+	"github.com/golang/protobuf/proto"
 	"github.com/weikaishio/chess/common"
 	"github.com/weikaishio/chess/game/server"
 	"github.com/weikaishio/chess/game/session"
@@ -11,9 +12,28 @@ import (
 	"github.com/weikaishio/chess/util/log"
 	"github.com/weikaishio/chess/util/redis_cli"
 	"github.com/weikaishio/chess/util/services"
-	"github.com/golang/protobuf/proto"
 )
 
+func HandleVerifyToken(userid uint32, token string) bool {
+	key := common.GenLoginInfoKey(userid)
+	value, err := redis_cli.Get(key)
+	if err != nil {
+		log.Warn("VerifyToken redis_cli.Get(key) fail:%s", err.Error())
+		return false
+	}
+
+	var loginInfo common.LoginInfo
+	if err := json.Unmarshal([]byte(value), &loginInfo); err != nil {
+		log.Warn("VerifyToken json.Unmarshal fail:%s", err.Error())
+		return false
+	}
+
+	if token != loginInfo.Token {
+		log.Info("token:%s != loginInfo.Token:%s", token, loginInfo.Token)
+		return false
+	}
+	return true
+}
 func HandleLogin(userid uint32, connid uint32, msgBody []byte) {
 	var req pb_client.LoginReq
 	var resp pb_client.LoginResp
@@ -34,7 +54,7 @@ func HandleLogin(userid uint32, connid uint32, msgBody []byte) {
 			return
 		}
 
-		exitFunc(userid,connid, MsgidLoginResp, result, &resp)
+		exitFunc(userid, connid, MsgidLoginResp, result, &resp)
 	}()
 
 	key := common.GenLoginInfoKey(userid)

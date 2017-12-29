@@ -8,9 +8,9 @@ import (
 
 	"fmt"
 
-	"github.com/gochenzl/chess/common"
-	"github.com/gochenzl/chess/server_gate/connid"
-	"github.com/gochenzl/chess/util/log"
+	"github.com/weikaishio/chess/common"
+	"github.com/weikaishio/chess/server_gate/connid"
+	"github.com/weikaishio/chess/util/log"
 )
 
 type httpWriterWithBlock struct {
@@ -55,7 +55,7 @@ func DoHttpFrontEnd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	incRecvMsgCounter()
-	sendBackendMsg(id, common.MsgRoute, []byte(password), body)
+	sendBackendMsg(id, common.MsgRoute, []byte("abcdefghijkl"), body)
 	select {
 	case <-time.Tick(15 * time.Second):
 		httpRespErr(0, w, "handle timeout")

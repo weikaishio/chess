@@ -185,9 +185,7 @@ func (info respInfo) encode(buffer *bytes.Buffer) codec.BackendGate {
 			} else {
 				bg.Connids = append(bg.Connids, sess.Connid)
 			}
-
 		}
-
 	} else {
 		sess, present := session.Get(info.userid)
 		if present {
@@ -203,6 +201,9 @@ func (info respInfo) encode(buffer *bytes.Buffer) codec.BackendGate {
 			}
 		} else {
 			log.Warn("user %d has no session", info.userid)
+			if info.connid > 0 {
+				bg.Connid = info.connid
+			}
 		}
 	}
 

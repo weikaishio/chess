@@ -2,6 +2,7 @@ package codec
 
 import (
 	"encoding/binary"
+	"fmt"
 	"io"
 )
 
@@ -69,6 +70,7 @@ func (gb *GateBackend) Decode(r io.Reader) error {
 		return ErrInvalid
 	}
 
+	fmt.Printf("decode totalSize:%d\n", totalSize)
 	buf := make([]byte, totalSize)
 	if _, err := io.ReadFull(r, buf); err != nil {
 		return err
@@ -81,9 +83,10 @@ func (gb *GateBackend) Decode(r io.Reader) error {
 
 	gb.Connid = binary.LittleEndian.Uint32(buf[offset:])
 	offset += 4
-
-	gb.Token = buf[offset : offset+12]
-	offset += 12
+	if totalSize >= 22 {
+		gb.Token = buf[offset : offset+12]
+		offset += 12
+	}
 
 	gb.MsgBuf = buf[offset:]
 

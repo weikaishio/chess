@@ -27,6 +27,10 @@ func sendBackendMsg(connid uint32, msgid uint16, token []byte, msgBuf []byte) {
 	var gb codec.GateBackend
 	gb.Connid = connid
 	gb.Msgid = msgid
+	if token == nil {
+		token = []byte("abcdefghijkl")
+		log.Info("token==nil")
+	}
 	gb.Token = token
 	gb.MsgBuf = msgBuf
 	sendToBackend(gb)
