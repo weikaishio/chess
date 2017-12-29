@@ -23,10 +23,11 @@ func checkTimeoutErr(err error) bool {
 	return false
 }
 
-func sendBackendMsg(connid uint32, msgid uint16, msgBuf []byte) {
+func sendBackendMsg(connid uint32, msgid uint16, token []byte, msgBuf []byte) {
 	var gb codec.GateBackend
 	gb.Connid = connid
 	gb.Msgid = msgid
+	gb.Token = token
 	gb.MsgBuf = msgBuf
 	sendToBackend(gb)
 }
@@ -47,7 +48,7 @@ func doFrontEnd(conn net.Conn) {
 
 	defer connid.Release(id)
 	defer delConn(id)
-	defer sendBackendMsg(id, common.MsgDisconnect, nil)
+	defer sendBackendMsg(id, common.MsgDisconnect, nil, nil)
 
 	br := bufio.NewReader(conn)
 
@@ -98,7 +99,7 @@ func doFrontEnd(conn net.Conn) {
 		}
 
 		incRecvMsgCounter()
-		sendBackendMsg(id, common.MsgRoute, msgBuf)
+		sendBackendMsg(id, common.MsgRoute, nil, msgBuf)
 		idleSeconds = 0
 	}
 }
