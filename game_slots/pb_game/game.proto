@@ -1,0 +1,191 @@
+syntax = "proto2";
+
+package pb_game;
+
+message kvobject{
+    required uint32 key = 1;
+    required int32 value = 2;
+}
+message msg_header {
+    required uint32 msgid = 1;
+    enum MSG_ID {
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////        游戏消息:msg_后为消息结构名,=号右边为消息id.
+        ////        c2s为client->server      s2c为server->client
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        server_version_s2c                      = 2;
+
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////玩家登录部分                   ///////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        user_login_c2s                          = 4;
+        user_login_success_s2c                  = 5;
+        user_login_failed_s2c                   = 6;
+        user_auth_c2s                           = 7;
+        user_auth_success_s2c                   = 8;
+        user_auth_failed_s2c                    = 9;
+
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////玩家关卡                   ///////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        user_enter_theme_c2s                    = 31;
+        user_enter_theme_success_s2c            = 32;
+        user_enter_theme_failed_s2c             = 33;
+
+        user_theme_spin_c2s                     = 34;
+        user_theme_spin_success_s2c             = 35;
+        user_theme_spin_failed_s2c              = 36;
+
+        user_theme_spin_optimize_c2s            = 37;
+        user_theme_spin_optimize_success_s2c    = 38;
+        user_theme_spin_optimize_failed_s2c     = 39;
+
+        user_theme_synchronize_c2s              = 40;
+        user_theme_synchronize_success_s2c      = 41;
+        user_theme_synchronize_failed_s2c       = 42;
+
+        user_theme_spin_compatible_c2s          = 43;
+        user_theme_spin_compatible_success_s2c  = 44;
+        user_theme_spin_compatible_failed_s2c   = 45;
+    }
+}
+message erlang_handler {
+    enum login_handler {
+        user_login_c2s = 1;
+        user_auth_c2s = 2;
+        platform_bind_c2s = 3;
+        platform_bind_use_archive_c2s = 4;
+        query_package_info_c2s = 5;
+        check_device_info_c2s = 6;
+        query_main_page_info_c2s = 7;
+        server_state_c2s = 8;
+    }
+}
+message platinfo {
+    required int32 opentype     = 1;
+    required string userid      = 2;
+    required string name        = 3;
+    required string img         = 4;
+}
+message server_version_s2c {
+    required uint32 msgid = 1;
+    required string b_version = 2;
+    required string s_version = 3;
+    required string data = 4;
+}
+message user_login_c2s {
+    required uint32 msgid           = 1;
+    required string deviceid        = 2;
+    required string ostype          = 3;
+    required string devicename      = 4;
+    required string osversion       = 5;
+}
+message user_login_success_s2c {
+    required uint32 msgid           = 1;
+    repeated kvobject accinfo       = 2;
+    repeated platinfo platinfos     = 3;
+}
+
+message user_login_failed_s2c {
+    required uint32 msgid           = 1;
+    required int32 reasonid         = 2;
+}
+message user_auth_c2s {
+    required uint32 msgid           = 1;
+    required string session         = 2;
+    required string time            = 3;
+    required string sign            = 4;
+}
+
+message user_auth_success_s2c {
+    required uint32 msgid           = 1;
+}
+
+message user_auth_failed_s2c {
+    required uint32 msgid           = 1;
+    required int32 reasonid         = 2;
+}
+
+message replace{
+    repeated symbol replace1    = 1;//普通替换
+    repeated symbol replace2    = 2;//问号替换
+    repeated symbol replace3    = 3;//点化
+}
+message symbol{
+    required int32 x             = 1;
+    required int32 y             = 2;
+    required int32 symbolid     = 3;
+}
+//lineid:0 scatter, -1 bonus 大于0普通线
+message line{
+    required uint32 lineid           = 1;
+    repeated coordinate coordinates  = 2;
+}
+message coordinate{
+    required int32 x             = 1;
+    required int32 y             = 2;
+}
+message rewardinfo{
+    required int64 gold         = 1;
+    required int64 exp          = 2;
+    required int32 spin         = 3;
+    required int32 gameid       = 4;
+}
+message eventinfo{
+    required int32 id               = 1;    // 事件id
+    required int32 num              = 2;    // 持续次数
+    repeated coordinate coordinates = 3;    // 特殊操作元素位置
+}
+message rewardstruct{
+    required int32 bet          = 1;
+    required int32 spin         = 2;
+    required int32 gameid       = 3;
+}
+message user_theme_spin_c2s {
+    required uint32 msgid           = 1;
+    required int32 themeid          = 2;
+    required uint32 isfree           = 3;
+    required int32 bet              = 4;
+    required int64 gold             = 5;
+}
+
+message user_theme_spin_success_s2c {
+    required uint32 msgid           = 1;
+    repeated symbol symbols         = 2;
+    repeated line lines             = 3;
+    required replace replace        = 4;
+    required rewardinfo rewardinfo  = 5;
+    repeated eventinfo eventinfo    = 6;    //特殊事件
+}
+
+message user_theme_spin_failed_s2c {
+    required uint32 msgid           = 1;
+    required int32 reasonid         = 2;
+}
+
+
+message user_theme_spin_optimize_c2s {
+    required uint32 msgid           = 1;
+    required int32 themeid          = 2;
+    required uint32 isfree           = 3;
+    required int32 bet              = 4;
+    required int64 gold             = 5;
+    required uint32 type            = 6;  //0正常 1活动免费
+}
+
+message user_theme_spin_optimize_success_s2c {
+    required uint32 msgid               = 1;
+    repeated symbol symbols             = 2;
+    repeated line lines                 = 3;
+    required replace replace            = 4;
+    required rewardstruct rewardinfo    = 5;
+    repeated eventinfo eventinfo        = 6;    //特殊事件
+    required int32 time                 = 7;    //jackpot中奖时 时间
+    required string chance              = 8;
+    required int32 free                 = 9;    //免费剩余次数
+}
+
+message user_theme_spin_optimize_failed_s2c {
+    required uint32 msgid           = 1;
+    required int32 reasonid         = 2;
+}
