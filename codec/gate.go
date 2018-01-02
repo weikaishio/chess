@@ -15,7 +15,6 @@ import (
 type GateBackend struct {
 	Msgid  uint16
 	Connid uint32
-	Token  []byte
 	MsgBuf []byte
 }
 
@@ -33,7 +32,7 @@ type BackendGate struct {
 }
 
 func (gb GateBackend) Encode(w io.Writer) error {
-	totalSize := uint32(6 + len(gb.Token) + len(gb.MsgBuf))
+	totalSize := uint32(6 + len(gb.MsgBuf))
 
 	var headBuf [10]byte
 	offset := 0
@@ -48,9 +47,6 @@ func (gb GateBackend) Encode(w io.Writer) error {
 		return err
 	}
 
-	if _, err := w.Write(gb.Token); err != nil {
-		return err
-	}
 	if len(gb.MsgBuf) != 0 {
 		if _, err := w.Write(gb.MsgBuf); err != nil {
 			return err
@@ -83,10 +79,6 @@ func (gb *GateBackend) Decode(r io.Reader) error {
 
 	gb.Connid = binary.LittleEndian.Uint32(buf[offset:])
 	offset += 4
-	if totalSize >= 22 {
-		gb.Token = buf[offset : offset+12]
-		offset += 12
-	}
 
 	gb.MsgBuf = buf[offset:]
 

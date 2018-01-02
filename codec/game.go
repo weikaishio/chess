@@ -26,12 +26,14 @@ var iv []byte
 // 下面所有字段加密前的长度(4字节)
 // userid             (4字节)
 // 消息id              (2字节)
-// 保留，清零           (4字节)
+// 保留，清零           (4字节)！！
+// token              (12字节)
 // 消息体
 // checksum，使用adler32计算以上所有内容(4字节)
 type ClientGame struct {
 	Userid  uint32
 	Msgid   uint16
+	Token   []byte
 	MsgBody []byte
 }
 
@@ -80,7 +82,7 @@ func (cg *ClientGame) Decode(buf []byte) error {
 	}
 
 	// msgLen不包括长度字段，所以要加4
-	if err := checkGameMsg(buf[:msgLen+4], 18); err != nil {
+	if err := checkGameMsg(buf[:msgLen+4], 26); err != nil {
 		return err
 	}
 
@@ -92,7 +94,7 @@ func (cg *ClientGame) Encode2Byte() ([]byte, error) {
 	defer buf_pool.Put(buf)
 	enc := encoder{w: buf, checksum: adler32.New()}
 
-	if err := enc.putUint32(14 + uint32(len(cg.MsgBody))); err != nil {
+	if err := enc.putUint32(26 + uint32(len(cg.MsgBody))); err != nil {
 		return nil, err
 	}
 
@@ -108,6 +110,9 @@ func (cg *ClientGame) Encode2Byte() ([]byte, error) {
 		return nil, err
 	}
 
+	if err := enc.putBytes(cg.Token); err != nil {
+		return nil, err
+	}
 	if err := enc.putBytes(cg.MsgBody); err != nil {
 		return nil, err
 	}
@@ -132,7 +137,7 @@ func (cg *ClientGame) Encode(w io.Writer) error {
 	defer buf_pool.Put(buf)
 	enc := encoder{w: buf, checksum: adler32.New()}
 
-	if err := enc.putUint32(14 + uint32(len(cg.MsgBody))); err != nil {
+	if err := enc.putUint32(26 + uint32(len(cg.MsgBody))); err != nil {
 		return err
 	}
 
@@ -147,7 +152,9 @@ func (cg *ClientGame) Encode(w io.Writer) error {
 	if err := enc.putUint32(0); err != nil {
 		return err
 	}
-
+	if err := enc.putBytes(cg.Token); err != nil {
+		return err
+	}
 	if err := enc.putBytes(cg.MsgBody); err != nil {
 		return err
 	}
@@ -269,6 +276,11 @@ func decodeClientGame(buf []byte, cg *ClientGame) {
 	offset += 2
 
 	offset += 4
+
+	if len(buf) >= 22 {
+		cg.Token = buf[offset : offset+12]
+		offset += 12
+	}
 
 	cg.MsgBody = buf[offset : len(buf)-4]
 	if len(cg.MsgBody) == 0 {

@@ -41,7 +41,7 @@ func workLoop() {
 
 			f, ok := handlers[cg.Msgid]
 			if !ok {
-				log.Warn("find %d handler fail", cg.Msgid)
+				log.Warn("find %d handler fail, handlers:%v", cg.Msgid, handlers)
 				SendResp(cg.Userid, gb.Connid, gb.Msgid, common.ResultFail, []byte(fmt.Sprintf("find %d handler fail", cg.Msgid)))
 				continue
 			}
@@ -50,11 +50,12 @@ func workLoop() {
 				log.Info("user %d has not yet logined", cg.Userid)
 				//continue
 				//todo:auth or continue
-				if !verifyHandle(cg.Userid, string(gb.Token)) {
+				if !verifyHandle(cg.Userid, string(cg.Token)) {
 					SendResp(cg.Userid, gb.Connid, gb.Msgid, common.ResultFail, []byte("verify fail"))
 					continue
 				}
 			}
+			log.Info("f(cg.Userid, gb.Connid, cg.MsgBody)")
 			//todo:verify token
 			f(cg.Userid, gb.Connid, cg.MsgBody)
 		} else if gb.Msgid == common.MsgGateid {

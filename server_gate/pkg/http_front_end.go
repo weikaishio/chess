@@ -42,11 +42,11 @@ func DoHttpFrontEnd(w http.ResponseWriter, r *http.Request) {
 	log.Info("connid:%d", id)
 	putConn(id, hw)
 
-	_, password, ok := r.BasicAuth()
-	if !ok && password == "" {
-		httpRespErr(0, w, "auth fail")
-		return
-	}
+	//_, password, ok := r.BasicAuth()
+	//if !ok && password == "" {
+	//	httpRespErr(0, w, "auth fail")
+	//	return
+	//}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Printf("ioutil.ReadAll(r.Body) err:%v,body:%v\n", err, body)
@@ -55,9 +55,10 @@ func DoHttpFrontEnd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	incRecvMsgCounter()
-	sendBackendMsg(id, common.MsgRoute, []byte("abcdefghijkl"), body)
+	sendBackendMsg(id, common.MsgRoute, body)
 	select {
 	case <-time.Tick(15 * time.Second):
+		log.Info("timeout http 400")
 		httpRespErr(0, w, "handle timeout")
 		break
 	case <-hw.finishSig:

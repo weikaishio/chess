@@ -175,6 +175,7 @@ func httpTest(userid uint32, username, token string) bool {
 	cg.Userid = userid
 	cg.MsgBody = []byte("xxxxx test")
 	cg.Msgid = ddz_handler.MsgidTestReq
+	cg.Token = []byte("abcdefghijkl")
 	body, err := cg.Encode2Byte()
 	if err != nil {
 		log.Error("test fail:%v", err)
